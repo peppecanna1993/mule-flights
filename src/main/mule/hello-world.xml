@@ -25,6 +25,23 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log Hello" doc:id="7b0de790-a1c8-47f2-a495-36fe2636ea90" message="#[payload.ID]"/>
+		<logger level="INFO" doc:name="Log fetched flights ID" doc:id="7b0de790-a1c8-47f2-a495-36fe2636ea90" message="#[payload.ID]"/>
+	</flow>
+	<flow name="getFlightbyID" doc:id="3ea46110-60ed-49be-92aa-e0a070ecdd84" >
+		<http:listener doc:name="GET /flights/{ID}" doc:id="5dad344f-087d-46d2-84fb-e773433e9157" config-ref="HTTP_Listener_config" path="/flights/{ID}" allowedMethods="GET" />
+		<set-variable value="#[message.attributes.uriParams.ID]" doc:name="Set Flight ID" doc:id="3e3ba27b-6405-450b-91b6-73fba895161b" variableName="flightid"/>
+		<db:select doc:name="Select flight by ID" doc:id="be5a72e3-ae85-400c-aab5-7286aaeddda9" config-ref="Database_Config" >
+			<db:sql ><![CDATA[SELECT * FROM american where ID = :ID]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{"ID": vars.flightid}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="ee6156f8-2b57-42ad-9f9d-5fd67aa6060f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Log fetched flights ID" doc:id="723cae9a-add9-48a1-98f3-c3a0483076c0" message="#[payload.ID]" />
 	</flow>
 </mule>
