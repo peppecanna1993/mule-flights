@@ -7,17 +7,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1ae67645-a326-4fb6-98e2-a328b7bac79f" >
-		<http:listener-connection host="0.0.0.0" port="${http.port}" />
-	</http:listener-config>
-	<db:config name="Database_Config" doc:name="Database Config" doc:id="a2e84e2e-efc9-45a4-91c2-a8b83be71e90" >
-		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" />
-	</db:config>
-	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="e410f3d9-90a0-4b15-8421-b97e21fa9ab6" />
-	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="f678d34f-25ed-4a56-b59e-0f076fe5f5c4" basePath="/api/timezone/Europe" >
-		<http:request-connection host="www.worldtimeapi.org" port="80" />
-	</http:request-config>
-	<configuration-properties doc:name="Configuration properties" doc:id="36a21596-031c-4fdf-857b-3ae471cbddfa" file="config.yaml" />
 	<flow name="hello-worldFlow" doc:id="bed25011-98e1-489d-85ca-ff6d8f9409fc" >
 		<http:listener doc:name="GET /time" doc:id="83e7a43d-64a4-4586-9061-29c1ac3eb8e2" config-ref="HTTP_Listener_config" path="/time" allowedMethods="GET"/>
 		<http:request method="GET" doc:name="Request" doc:id="4cf3a870-ad6d-49e3-b6d9-e18d8c990863" config-ref="HTTP_Request_configuration" path="/" responseTimeout="300000"/>
